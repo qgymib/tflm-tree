@@ -92,3 +92,6 @@ compile_commands.json
 # JetBrains
 /.idea
 /cmake-build-debug
+
+# venv
+/.venv
