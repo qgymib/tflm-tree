@@ -36,7 +36,7 @@ def setup_tflite(project_root, clone_dir, source_dir):
     if os.path.isdir(source_dir):
         shutil.rmtree(source_dir)
     script_path = os.path.join(clone_dir, 'tensorflow', 'lite', 'micro', 'tools', 'project_generation', 'create_tflm_tree.py')
-    subprocess.run([sys.executable, script_path, source_dir], check=True, cwd=clone_dir)
+    subprocess.run([sys.executable, script_path, '-e', 'hello_world', source_dir], check=True, cwd=clone_dir)
 
 def setup_project(project_root, clone_dir, source_dir):
     # Step 1: Remove all files and folders in project
