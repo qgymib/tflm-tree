@@ -7,20 +7,6 @@ from pathlib import Path
 
 tflite_micro_url = 'https://github.com/tensorflow/tflite-micro'
 
-def check_and_install_package(name, package):
-    try:
-        # Try importing the package
-        __import__(name)
-    except ImportError:
-        # If import fails, the package is likely not installed
-        print(f"{name} not found. Installing...")
-        try:
-            # Use subprocess to call pip install
-            subprocess.check_call([sys.executable, "-m", "pip", "install", package])
-            print(f"{name} installed successfully.")
-        except subprocess.CalledProcessError:
-            print(f"Failed to install {name}.")
-
 def setup_tflite(project_root, clone_dir, source_dir):
     # Step 1: Create parent directory for clone_dir if not exist
     parent_dir = Path(clone_dir).parent
@@ -112,11 +98,6 @@ def update_cmake_lists(cmake_path, source_files):
 
 if __name__ == '__main__':
     project_root = os.path.join(os.path.dirname(__file__), '..')
-
-    # Check if all required packages are installed
-    print('Checking if all required packages are installed...')
-    check_and_install_package("numpy", "numpy")
-    check_and_install_package("PIL", "pillow")
 
     # Generate tflite-tree
     print('Generating tflite-tree...')
