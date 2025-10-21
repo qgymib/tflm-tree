@@ -1,4 +1,4 @@
-/* Copyright 2020 The TensorFlow Authors. All Rights Reserved.
+/* Copyright 2025 The TensorFlow Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,9 +14,11 @@ limitations under the License.
 ==============================================================================*/
 #include "tensorflow/lite/micro/micro_profiler.h"
 
+#include <algorithm>
 #include <cinttypes>
 #include <cstdint>
 #include <cstring>
+#include <iterator>
 
 #include "tensorflow/lite/kernels/internal/compatibility.h"
 #include "tensorflow/lite/micro/micro_log.h"
@@ -86,14 +88,14 @@ void MicroProfiler::LogTicksPerTagCsv() {
     TFLITE_DCHECK(tags_[i] != nullptr);
     int position = FindExistingOrNextPosition(tags_[i]);
     TFLITE_DCHECK(position >= 0);
-    total_ticks_per_tag[position].tag = tags_[i];
-    total_ticks_per_tag[position].ticks =
-        total_ticks_per_tag[position].ticks + ticks;
+    total_ticks_per_tag_[position].tag = tags_[i];
+    total_ticks_per_tag_[position].ticks =
+        total_ticks_per_tag_[position].ticks + ticks;
     total_ticks += ticks;
   }
 
   for (int i = 0; i < num_events_; ++i) {
-    TicksPerTag each_tag_entry = total_ticks_per_tag[i];
+    TicksPerTag each_tag_entry = total_ticks_per_tag_[i];
     if (each_tag_entry.tag == nullptr) {
       break;
     }
@@ -112,7 +114,7 @@ void MicroProfiler::LogTicksPerTagCsv() {
 int MicroProfiler::FindExistingOrNextPosition(const char* tag_name) {
   int pos = 0;
   for (; pos < num_events_; pos++) {
-    TicksPerTag each_tag_entry = total_ticks_per_tag[pos];
+    TicksPerTag each_tag_entry = total_ticks_per_tag_[pos];
     if (each_tag_entry.tag == nullptr ||
         strcmp(each_tag_entry.tag, tag_name) == 0) {
       return pos;
@@ -120,4 +122,11 @@ int MicroProfiler::FindExistingOrNextPosition(const char* tag_name) {
   }
   return pos < num_events_ ? pos : -1;
 }
+
+void MicroProfiler::ClearEvents() {
+  std::fill_n(std::begin(total_ticks_per_tag_), num_events_, TicksPerTag{});
+
+  num_events_ = 0;
+}
+
 }  // namespace tflite

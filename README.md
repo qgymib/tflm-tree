@@ -4,9 +4,15 @@ Third-party porting for [TensorFlow Lite for Microcontrollers](https://github.co
 
 ## Upstream version
 
-commit: [324ae1eaba98c8aeb440072371efea481c42ace3](https://github.com/tensorflow/tflite-micro/commit/324ae1eaba98c8aeb440072371efea481c42ace3)
+commit: [cee9550a3770b0c6bb560276db86f6b21895f597](https://github.com/tensorflow/tflite-micro/commit/cee9550a3770b0c6bb560276db86f6b21895f597)
 
 ## Sync with upstream.
+
+Note: The following tools must installed:
+
+```
+wget unzip
+```
 
 1. Create a python virtual environment:
     ```bash

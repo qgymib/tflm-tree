@@ -43,7 +43,8 @@ add_library(${PROJECT_NAME}
     signal/src/square_root_32.cc
     signal/src/square_root_64.cc
     signal/src/window.cc
-    tensorflow/lite/core/api/error_reporter.cc
+    tensorflow/compiler/mlir/lite/core/api/error_reporter.cc
+    tensorflow/compiler/mlir/lite/schema/schema_utils.cc
     tensorflow/lite/core/api/flatbuffer_conversions.cc
     tensorflow/lite/core/api/tensor_utils.cc
     tensorflow/lite/core/c/common.cc
@@ -52,6 +53,7 @@ add_library(${PROJECT_NAME}
     tensorflow/lite/kernels/internal/quantization_util.cc
     tensorflow/lite/kernels/internal/reference/comparisons.cc
     tensorflow/lite/kernels/internal/reference/portable_tensor_utils.cc
+    tensorflow/lite/kernels/internal/runtime_shape.cc
     tensorflow/lite/kernels/internal/tensor_ctypes.cc
     tensorflow/lite/kernels/internal/tensor_utils.cc
     tensorflow/lite/kernels/kernel_util.cc
@@ -62,6 +64,7 @@ add_library(${PROJECT_NAME}
     tensorflow/lite/micro/debug_log.cc
     tensorflow/lite/micro/fake_micro_context.cc
     tensorflow/lite/micro/flatbuffer_utils.cc
+    tensorflow/lite/micro/hexdump.cc
     tensorflow/lite/micro/kernels/activations.cc
     tensorflow/lite/micro/kernels/activations_common.cc
     tensorflow/lite/micro/kernels/add.cc
@@ -70,6 +73,7 @@ add_library(${PROJECT_NAME}
     tensorflow/lite/micro/kernels/arg_min_max.cc
     tensorflow/lite/micro/kernels/assign_variable.cc
     tensorflow/lite/micro/kernels/batch_matmul.cc
+    tensorflow/lite/micro/kernels/batch_matmul_common.cc
     tensorflow/lite/micro/kernels/batch_to_space_nd.cc
     tensorflow/lite/micro/kernels/broadcast_args.cc
     tensorflow/lite/micro/kernels/broadcast_to.cc
@@ -83,9 +87,14 @@ add_library(${PROJECT_NAME}
     tensorflow/lite/micro/kernels/conv.cc
     tensorflow/lite/micro/kernels/conv_common.cc
     tensorflow/lite/micro/kernels/cumsum.cc
+    tensorflow/lite/micro/kernels/decode.cc
+    tensorflow/lite/micro/kernels/decode_state.cc
+    tensorflow/lite/micro/kernels/decode_state_lut.cc
+    tensorflow/lite/micro/kernels/decompress.cc
+    tensorflow/lite/micro/kernels/decompress_common.cc
+    tensorflow/lite/micro/kernels/depth_to_space.cc
     tensorflow/lite/micro/kernels/depthwise_conv.cc
     tensorflow/lite/micro/kernels/depthwise_conv_common.cc
-    tensorflow/lite/micro/kernels/depth_to_space.cc
     tensorflow/lite/micro/kernels/dequantize.cc
     tensorflow/lite/micro/kernels/dequantize_common.cc
     tensorflow/lite/micro/kernels/detection_postprocess.cc
@@ -109,15 +118,15 @@ add_library(${PROJECT_NAME}
     tensorflow/lite/micro/kernels/if.cc
     tensorflow/lite/micro/kernels/kernel_runner.cc
     tensorflow/lite/micro/kernels/kernel_util.cc
-    tensorflow/lite/micro/kernels/l2norm.cc
     tensorflow/lite/micro/kernels/l2_pool_2d.cc
+    tensorflow/lite/micro/kernels/l2norm.cc
     tensorflow/lite/micro/kernels/leaky_relu.cc
     tensorflow/lite/micro/kernels/leaky_relu_common.cc
+    tensorflow/lite/micro/kernels/log_softmax.cc
     tensorflow/lite/micro/kernels/logical.cc
     tensorflow/lite/micro/kernels/logical_common.cc
     tensorflow/lite/micro/kernels/logistic.cc
     tensorflow/lite/micro/kernels/logistic_common.cc
-    tensorflow/lite/micro/kernels/log_softmax.cc
     tensorflow/lite/micro/kernels/lstm_eval.cc
     tensorflow/lite/micro/kernels/lstm_eval_common.cc
     tensorflow/lite/micro/kernels/maximum_minimum.cc
@@ -128,6 +137,7 @@ add_library(${PROJECT_NAME}
     tensorflow/lite/micro/kernels/neg.cc
     tensorflow/lite/micro/kernels/pack.cc
     tensorflow/lite/micro/kernels/pad.cc
+    tensorflow/lite/micro/kernels/pad_common.cc
     tensorflow/lite/micro/kernels/pooling.cc
     tensorflow/lite/micro/kernels/pooling_common.cc
     tensorflow/lite/micro/kernels/prelu.cc
@@ -141,6 +151,7 @@ add_library(${PROJECT_NAME}
     tensorflow/lite/micro/kernels/reshape_common.cc
     tensorflow/lite/micro/kernels/resize_bilinear.cc
     tensorflow/lite/micro/kernels/resize_nearest_neighbor.cc
+    tensorflow/lite/micro/kernels/reverse.cc
     tensorflow/lite/micro/kernels/round.cc
     tensorflow/lite/micro/kernels/select.cc
     tensorflow/lite/micro/kernels/shape.cc
@@ -161,6 +172,7 @@ add_library(${PROJECT_NAME}
     tensorflow/lite/micro/kernels/svdf_common.cc
     tensorflow/lite/micro/kernels/tanh.cc
     tensorflow/lite/micro/kernels/transpose.cc
+    tensorflow/lite/micro/kernels/transpose_common.cc
     tensorflow/lite/micro/kernels/transpose_conv.cc
     tensorflow/lite/micro/kernels/unidirectional_sequence_lstm.cc
     tensorflow/lite/micro/kernels/unpack.cc
@@ -186,11 +198,10 @@ add_library(${PROJECT_NAME}
     tensorflow/lite/micro/mock_micro_graph.cc
     tensorflow/lite/micro/recording_micro_allocator.cc
     tensorflow/lite/micro/system_setup.cc
-    tensorflow/lite/micro/test_helpers.cc
     tensorflow/lite/micro/test_helper_custom_ops.cc
+    tensorflow/lite/micro/test_helpers.cc
     tensorflow/lite/micro/tflite_bridge/flatbuffer_conversions_bridge.cc
     tensorflow/lite/micro/tflite_bridge/micro_error_reporter.cc
-    tensorflow/lite/schema/schema_utils.cc
     third_party/kissfft/kiss_fft.c
     third_party/kissfft/tools/kiss_fftr.c
 )
